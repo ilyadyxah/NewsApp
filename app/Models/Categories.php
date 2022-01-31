@@ -3,18 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class Categories
 {
-    private $categories = [
-        'Politics',
-        'Accidents',
-        'Economy',
-        'Sport'];
-
     public function getCategories()
     {
-        return $this->categories;
+        $sql = "SELECT * FROM news_portal.category";
+        $result = DB::select($sql);
+        return $result;
     }
 
     public function addCategory($request)

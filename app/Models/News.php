@@ -2,18 +2,28 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\DB;
+
 class News
 {
-    private $news = [
-        1 => ['category' => 1, 'title' => 'some title1', 'brief_content' => 'some content1', 'content' => 'Кстати, независимые государства набирают популярность среди определенных слоев населения, а значит, должны быть объективно рассмотрены соответствующими инстанциями.'],
-        2 => ['category' => 2, 'title' => 'some title2', 'brief_content' => 'some content2', 'content' => 'Банальные, но неопровержимые выводы, а также некоторые особенности внутренней политики будут ассоциативно распределены по отраслям.'],
-        3 => ['category' => 2, 'title' => 'some title3', 'brief_content' => 'some content3', 'content' => 'Равным образом, курс на социально-ориентированный национальный проект обеспечивает актуальность переосмысления внешнеэкономических политик.'],
-        4 => ['category' => 1, 'title' => 'some title4', 'brief_content' => 'some content4', 'content' => 'А ещё сторонники тоталитаризма в науке являются только методом политического участия и указаны как претенденты на роль ключевых факторов!'],
-        5 => ['category' => 3, 'title' => 'some title5', 'brief_content' => 'some content5', 'content' => 'Повседневная практика показывает, что глубокий уровень погружения требует анализа модели развития.'],
-    ];
-
     public function getNews()
     {
-        return $this->news;
+        $sql = "SELECT * FROM news_portal.news";
+        $result = DB::select($sql);
+        return $result;
+    }
+
+    public function getNewsByCategory($id)
+    {
+        $sql = "SELECT * FROM news_portal.news WHERE category_id = :id";
+        $result = DB::select($sql, [$id]);
+        return $result;
+    }
+
+    public function getNewsById($id)
+    {
+        $sql = "SELECT * FROM news_portal.news WHERE id = :id";
+        $result = DB::selectOne($sql, [$id]);
+        return $result;
     }
 }

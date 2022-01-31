@@ -13,28 +13,28 @@ class NewsController extends Controller
         return view('news.index');
     }
 
-    public function categories ()
+    public function allNews (News $news)
     {
-        return view('news.categories');
+        $all_news = $news->getNews();
+        return view('news.all_news', ['news' => $all_news]);
     }
 
-    public function category ($id)
+    public function categories (Categories $categories)
     {
-        return view('news.news_category', ['id' => $id, 'count' => 0]);
+        $all_categories = $categories->getCategories();
+        return view('news.categories', ['categories' => $all_categories]);
     }
 
-    public function card ($id)
+    public function category (News $news, $id)
     {
-        return view('news.news_card', ['id' => $id]);
+        $category_news = $news->getNewsByCategory($id);
+        return view('news.news_category', ['news' => $category_news, 'count' => 0]);
     }
 
-    public function addNews ()
+    public function card (News $news, $id)
     {
-        return '<form name="add_news" method="post" action="#" style="padding: 15px; width: 388px">
-                   <input type="text" name="title" placeholder="Название" style="width: 388px; height: 30px"><br>
-                   <input type="text" name="brief_content" placeholder="Краткое содержание" style="width: 388px; height: 30px"><br>
-                   <textarea name="content" placeholder="Контент" cols="50" rows="15"></textarea><br>
-                   <input type="submit" name="submit" value="Отправить новость">';
+        $new = $news->getNewsById($id);
+        return view('news.news_card', ['new' => $new]);
     }
 }
 

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use DB;
 use Illuminate\Database\Seeder;
 
 class CategorySeeder extends Seeder
@@ -13,11 +14,12 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        \DB::table('category')
-            ->insert([[
+        DB::table('category')
+            ->insert([
+                [
                 'name' => 'Politics',
                 'created_at' => now()
-            ],
+                ],
                 [
                     'name' => 'Sport',
                     'created_at' => now()
@@ -28,6 +30,18 @@ class CategorySeeder extends Seeder
                 ],
                 [
                     'name' => 'Economy',
+                    'created_at' => now()
+                ],
+                [
+                    'name' => 'Ecology',
+                    'created_at' => now()
+                ],
+                [
+                    'name' => 'Society',
+                    'created_at' => now()
+                ],
+                [
+                    'name' => 'Culture',
                     'created_at' => now()
                 ]
             ]);

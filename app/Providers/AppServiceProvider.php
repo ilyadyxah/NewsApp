@@ -25,9 +25,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $news = (new News())->getNews();
-        $categories = (new Categories())->getCategories();
-        \View::share('news', $news);
-        \View::share('categories', $categories);
+//        $news = (new News())->getNews();
+//        $categories = (new Categories())->getCategories();
+//        \View::share('news', $news);
+//        \View::share('categories', $categories);
     }
 }
