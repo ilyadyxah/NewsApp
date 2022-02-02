@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class Categories
+class OldCategories
 {
     public function getCategories()
     {

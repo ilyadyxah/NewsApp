@@ -11,6 +11,9 @@
 <body>
     <div class="header">
         <h1>Новостной канал "Пи.FM"</h1>
+        <a href="{{ route('news::index') }}">Главная</a>
+{{--        <a href='{{route('admin::user::аuthor')}}'>Авторизация</a>--}}
+        <a href="{{ route('admin::index') }}">Админка</a>
         <hr>
     </div>
     <div class="content">

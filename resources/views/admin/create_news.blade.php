@@ -7,7 +7,15 @@
     <div>
         {!! Form::text('title') !!}
     </div>
-    <label for="title">Контент</label>
+    <label for="title">Автор</label>
+    <div>
+        {!! Form::text('author') !!}
+    </div>
+    <label for="title">Категория</label>
+    <div>
+        {!! Form::text('category') !!}
+    </div>
+    <label for="title">Текст</label>
     <div>
         {!! Form::textarea('content') !!}
     </div>
@@ -15,4 +23,7 @@
         {!! Form::submit('Send') !!}
     </div>
     {!! Form::close() !!}
+    <div>
+        <p> {{ $response }}</p>
+    </div>
 @endsection

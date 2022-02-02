@@ -14,8 +14,8 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        DB::table('category')
-            ->insert([
+        DB::table('categories')
+            ->insertOrIgnore([
                 [
                 'name' => 'Politics',
                 'created_at' => now()

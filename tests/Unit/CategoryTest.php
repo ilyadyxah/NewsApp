@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Models\Categories;
+use App\Models\OldCategories;
 use PHPUnit\Framework\TestCase;
 
 class CategoryTest extends TestCase
@@ -14,7 +14,7 @@ class CategoryTest extends TestCase
      */
     public function test_category()
     {
-        $categories = new Categories();
+        $categories = new OldCategories();
         $request = ['title' => 'sometitle'];
         $data = $categories->addCategory($request);
         $this->assertIsString($data);

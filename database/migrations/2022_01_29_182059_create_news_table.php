@@ -18,17 +18,12 @@ class CreateNewsTable extends Migration
             $table->string('title', 50)
                 ->unique()
                 ->nullable(false);
-            $table->dateTime('publish_date')
-                ->nullable(false)
-                ->index();
             $table->text('content')
                 ->nullable(false);
-            $table->string('image', 256);
-            $table->integer('category_id')
-                ->nullable(false);
-            $table->integer('author_id');
+            $table->string('image', 256)
+                ->nullable(true);
             $table->integer('status_id')
-                ->nullable(false);
+                ->nullable(true);
             $table->timestamps();
             $table->softDeletes();
         });
