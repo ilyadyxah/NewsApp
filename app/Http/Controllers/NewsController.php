@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Categories;
+use App\Models\Category;
 use App\Models\News;
 use Illuminate\Http\Request;
 
@@ -13,28 +13,29 @@ class NewsController extends Controller
         return view('news.index');
     }
 
-    public function allNews (News $news)
+    public function allNews ()
     {
-        $all_news = $news->getNews();
-        return view('news.all_news', ['news' => $all_news]);
+        return view('news.all_news', ['news' => News::all()]);
     }
 
-    public function categories (Categories $categories)
+    public function categories ()
     {
-        $all_categories = $categories->getCategories();
-        return view('news.categories', ['categories' => $all_categories]);
+
+        return view('news.categories', ['categories' => Category::all()]);
     }
 
-    public function category (News $news, $id)
+    public function category ($categoryId)
     {
-        $category_news = $news->getNewsByCategory($id);
-        return view('news.news_category', ['news' => $category_news, 'count' => 0]);
+        $news = News::query()
+        ->where('category_id', $categoryId)
+        ->get();
+        return view('news.category', ['news' => $news, 'count' => 0]);
     }
 
-    public function card (News $news, $id)
+    public function card ($id)
     {
-        $new = $news->getNewsById($id);
-        return view('news.news_card', ['new' => $new]);
+        $news = News::find($id);
+        return view('news.card', ['news' => $news]);
     }
 }
 

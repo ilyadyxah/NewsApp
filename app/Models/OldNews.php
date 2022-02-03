@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Support\Facades\DB;
 
-class News
+class OldNews
 {
     public function getNews()
     {

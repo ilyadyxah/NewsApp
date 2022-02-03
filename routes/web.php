@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::prefix('news')->group(function() {
+
     Route::get('/', [NewsController::class, 'index'])
         ->name('news::index');
 
@@ -35,20 +36,37 @@ Route::prefix('news')->group(function() {
 });
 
 Route::prefix('admin')->group(function() {
+
     Route::get('/', [AdminController::class, 'index'])
-        ->name('admin');
+        ->name('admin::index');
 
-    Route::post('/create_news', [AdminController::class, 'createNews'])
-        ->name('admin::news::create');
-
-    Route::get('/add_news', [AdminController::class, 'addNews'])
-        ->name('admin::news::add');
+    Route::get('/add_category/{category?}', [AdminController::class, 'addCategory'])
+        ->name('admin::news::addCategory');
 
     Route::post('/create_category', [AdminController::class, 'createCategory'])
         ->name('admin::news::createCategory');
 
-    Route::get('/add_category/{category?}', [AdminController::class, 'addCategory'])
-        ->name('admin::news::addCategory');
+    Route::get('/add_news/{response?}', [AdminController::class, 'addNews'])
+        ->name('admin::news::add');
+
+    Route::post('/create_news', [AdminController::class, 'createNews'])
+        ->name('admin::news::create');
+
+    Route::get('/find_news/{response?}/{reply?}', [AdminController::class, 'findNews'])
+        ->name('admin::news::findNews');
+
+    Route::post('/get_news', [AdminController::class, 'getNews'])
+        ->name('admin::news::getNews');
+
+    Route::get('/delete_news/{news_id}', [AdminController::class, 'deleteNews'])
+        ->name('admin::news::delete');
+
+    Route::get('/update_news/{news_id}', [AdminController::class, 'updateNews'])
+        ->name('admin::news::update');
+
+    Route::post('/update_news/apply_update', [AdminController::class, 'applyUpdateNews'])
+        ->name('admin::news::apply');
+
 });
 
 Route::get('/admin/user/аuthor', [AuthorizationController::class, 'authorization'])

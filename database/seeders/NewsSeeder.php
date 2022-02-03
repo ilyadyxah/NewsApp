@@ -18,12 +18,11 @@ class NewsSeeder extends Seeder
         DB::table('news')
             ->insert([
                     'title' => $generator->text(50),
-                    'publish_date' => $generator->dateTime(),
                     'content' => $generator->text(),
                     'image' => $generator->url(),
-                    'category_id' => $generator->randomDigitNotNull(),
-                    'author_id' => $generator->randomDigitNotNull(),
-                    'status_id' => $generator->randomDigitNotNull(),
+                    'category_id' => rand(1,7),
+                    'author_id' => 1,
+//                    'status_id' => $generator->randomDigitNotNull(),
                     'created_at' => now()
                 ]
             );

@@ -14,10 +14,9 @@ class AuthorSeeder extends Seeder
      */
     public function run(Generator $generator)
     {
-        \DB::table('author')
+        \DB::table('authors')
             ->insert([
-                'first_name' => $generator->firstName(),
-                'last_name' => $generator->lastName(),
+                'name' => $generator->name(),
                 'created_at' => now()
             ]);
     }
