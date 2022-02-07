@@ -67,6 +67,20 @@ Route::prefix('admin/news/')->group(function() {
         Route::post('save', [CategoryController::class, 'save'])
             ->name('admin::category::save');
     });
+
+//    Route::get('/lang/{lang}', [NewsController::class, 'setLocale'])
+//        ->name('lang');
+
+    Route::get('/locale/{lang}', function ($locale) {
+        if (! in_array($locale, ['en', 'ru'])) {
+            abort(400);
+        }
+
+        App::setLocale($locale);
+        return back();
+        //
+    })->name('lang');
+
 });
 
 //Route::get('/admin/user/аuthor', [AuthorizationController::class, 'authorization'])

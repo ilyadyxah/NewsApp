@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\News;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
 
 class NewsController extends Controller
 {
@@ -31,6 +33,15 @@ class NewsController extends Controller
     {
         $news = News::find($id);
         return view('news.card', ['news' => $news]);
+    }
+
+    public function setLocale(Request $request, $lang)
+    {
+
+        $request->session()->forget('lang');
+        App::setLocale($lang);
+//        return redirect()->route('admin::news::create');
+        return back();
     }
 }
 
