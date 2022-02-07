@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\AuthorizationController;
 use App\Http\Controllers\NewsController;
 use Illuminate\Support\Facades\Route;
@@ -22,9 +23,6 @@ Route::prefix('news')->group(function() {
     Route::get('/', [NewsController::class, 'index'])
         ->name('news::index');
 
-    Route::get('/allnews', [NewsController::class, 'allNews'])
-        ->name('news::allNews');
-
     Route::get('/categories', [NewsController::class, 'categories'])
         ->name('news::categories');
 
@@ -35,39 +33,41 @@ Route::prefix('news')->group(function() {
         ->name('news::card');
 });
 
-Route::prefix('admin')->group(function() {
+Route::prefix('admin/news/')->group(function() {
 
-    Route::get('/', [AdminController::class, 'index'])
-        ->name('admin::index');
+    Route::get('index', [AdminNewsController::class, 'index'])
+        ->name('admin::news::index');
 
-    Route::get('/add_category/{category?}', [AdminController::class, 'addCategory'])
-        ->name('admin::news::addCategory');
-
-    Route::post('/create_category', [AdminController::class, 'createCategory'])
-        ->name('admin::news::createCategory');
-
-    Route::get('/add_news/{response?}', [AdminController::class, 'addNews'])
-        ->name('admin::news::add');
-
-    Route::post('/create_news', [AdminController::class, 'createNews'])
+    Route::get('create', [AdminNewsController::class, 'create'])
         ->name('admin::news::create');
 
-    Route::get('/find_news/{response?}/{reply?}', [AdminController::class, 'findNews'])
-        ->name('admin::news::findNews');
+    Route::post('save', [AdminNewsController::class, 'save'])
+        ->name('admin::news::save');
 
-    Route::post('/get_news', [AdminController::class, 'getNews'])
-        ->name('admin::news::getNews');
-
-    Route::get('/delete_news/{news_id}', [AdminController::class, 'deleteNews'])
-        ->name('admin::news::delete');
-
-    Route::get('/update_news/{news_id}', [AdminController::class, 'updateNews'])
+    Route::get('update/{news}', [AdminNewsController::class, 'update'])
         ->name('admin::news::update');
 
-    Route::post('/update_news/apply_update', [AdminController::class, 'applyUpdateNews'])
-        ->name('admin::news::apply');
+    Route::get('delete/{id}', [AdminNewsController::class, 'delete'])
+        ->name('admin::news::delete');
 
+    Route::match(['get', 'post'], '/find/', [AdminNewsController::class, 'find'])
+        ->name('admin::news::find');
+
+
+    Route::prefix('admin/category/')->group(function() {
+        Route::get('create', [CategoryController::class, 'create'])
+            ->name('admin::category::create');
+
+        Route::get('update/{id}', [CategoryController::class, 'update'])
+            ->name('admin::category::update');
+
+        Route::get('delete/{id}', [CategoryController::class, 'delete'])
+            ->name('admin::category::delete');
+
+        Route::post('save', [CategoryController::class, 'save'])
+            ->name('admin::category::save');
+    });
 });
 
-Route::get('/admin/user/аuthor', [AuthorizationController::class, 'authorization'])
-    ->name('admin::user::аuthor');
+//Route::get('/admin/user/аuthor', [AuthorizationController::class, 'authorization'])
+//    ->name('admin::user::аuthor');

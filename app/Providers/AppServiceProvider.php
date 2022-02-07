@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\OldCategories;
 use App\Models\News;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Paginator::useBootstrap();
 //        $news = (new News())->getNews();
 //        $categories = (new OldCategories())->getCategories();
 //        \View::share('news', $news);

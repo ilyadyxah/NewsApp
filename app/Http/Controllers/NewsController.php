@@ -10,12 +10,7 @@ class NewsController extends Controller
 {
     public function index ()
     {
-        return view('news.index');
-    }
-
-    public function allNews ()
-    {
-        return view('news.all_news', ['news' => News::all()]);
+        return view('news.index', ['news' => News::orderBy('updated_at', 'desc')->paginate(5)]);
     }
 
     public function categories ()
