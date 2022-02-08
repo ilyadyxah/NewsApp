@@ -34,14 +34,5 @@ class NewsController extends Controller
         $news = News::find($id);
         return view('news.card', ['news' => $news]);
     }
-
-    public function setLocale(Request $request, $lang)
-    {
-
-        $request->session()->forget('lang');
-        App::setLocale($lang);
-//        return redirect()->route('admin::news::create');
-        return back();
-    }
 }
 

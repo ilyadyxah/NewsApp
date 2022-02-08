@@ -19,9 +19,11 @@ class NewsController extends Controller
 
     public function create(Category $category)
     {
+        $locale = \App::getLocale();
         return view('admin.news.create', [
             'model' => new News(),
             'categories' => $category->getList(),
+            'locale' => $locale
         ]);
     }
 

@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
-use App\Http\Controllers\AuthorizationController;
+use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\NewsController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,70 +19,82 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::prefix('news')->group(function() {
+Route::group([
+    'prefix' => 'news',
+    'as' => 'news::'
+],function() {
 
     Route::get('/', [NewsController::class, 'index'])
-        ->name('news::index');
+        ->name('index');
 
     Route::get('/categories', [NewsController::class, 'categories'])
-        ->name('news::categories');
+        ->name('categories');
 
     Route::get('/categories/{id}', [NewsController::class, 'category'])
-        ->name('news::category');
+        ->name('category');
 
     Route::get('/card/{id}', [NewsController::class, 'card'])
-        ->name('news::card');
+        ->name('card');
 });
 
-Route::prefix('admin/news/')->group(function() {
+Route::group([
+    'prefix' => 'admin/',
+],function() {
+    Route::group([
+        'prefix' => 'news/',
+        'as' => 'admin::news::'
+    ],function() {
 
     Route::get('index', [AdminNewsController::class, 'index'])
-        ->name('admin::news::index');
+        ->name('index');
 
     Route::get('create', [AdminNewsController::class, 'create'])
-        ->name('admin::news::create');
+        ->name('create');
 
     Route::post('save', [AdminNewsController::class, 'save'])
-        ->name('admin::news::save');
+        ->name('save');
 
     Route::get('update/{news}', [AdminNewsController::class, 'update'])
-        ->name('admin::news::update');
+        ->name('update');
 
     Route::get('delete/{id}', [AdminNewsController::class, 'delete'])
-        ->name('admin::news::delete');
+        ->name('delete');
 
     Route::match(['get', 'post'], '/find/', [AdminNewsController::class, 'find'])
-        ->name('admin::news::find');
-
-
-    Route::prefix('admin/category/')->group(function() {
-        Route::get('create', [CategoryController::class, 'create'])
-            ->name('admin::category::create');
-
-        Route::get('update/{id}', [CategoryController::class, 'update'])
-            ->name('admin::category::update');
-
-        Route::get('delete/{id}', [CategoryController::class, 'delete'])
-            ->name('admin::category::delete');
-
-        Route::post('save', [CategoryController::class, 'save'])
-            ->name('admin::category::save');
+        ->name('find');
     });
 
-//    Route::get('/lang/{lang}', [NewsController::class, 'setLocale'])
-//        ->name('lang');
+    Route::group([
+        'prefix' => 'category/',
+        'as' => 'admin::category::'
+    ],function() {
+        Route::get('create', [CategoryController::class, 'create'])
+            ->name('create');
 
-    Route::get('/locale/{lang}', function ($locale) {
-        if (! in_array($locale, ['en', 'ru'])) {
-            abort(400);
-        }
+        Route::get('update/{id}', [CategoryController::class, 'update'])
+            ->name('update');
 
-        App::setLocale($locale);
-        return back();
-        //
-    })->name('lang');
+        Route::get('delete/{id}', [CategoryController::class, 'delete'])
+            ->name('delete');
+
+        Route::post('save', [CategoryController::class, 'save'])
+            ->name('save');
+    });
 
 });
 
-//Route::get('/admin/user/аuthor', [AuthorizationController::class, 'authorization'])
-//    ->name('admin::user::аuthor');
+Route::get('/locale/{lang}', [LocaleController::class, 'index'])
+    ->name('locale')
+->middleware('locale');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get( 'admin/profile/update', [ProfileController::class, 'update'])
+    ->name('admin::profile::update');
+
+Route::post('admin/profile/save', [ProfileController::class, 'save'])
+    ->name('admin::profile::save')
+    ->middleware('profile');
+

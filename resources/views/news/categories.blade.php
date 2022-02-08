@@ -1,6 +1,6 @@
 @extends('base')
 @section('content')
-<h1>Категории</h1>
+<h2>Категории</h2>
 <ul class="nav nav-tabs">
     <li class="nav-item">
         <a class="nav-link" aria-current="page" href='{{route('news::index')}}'>Все новости</a>

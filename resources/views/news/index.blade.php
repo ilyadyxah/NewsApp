@@ -1,7 +1,7 @@
 @extends('base')
 @section('content')
 <div>
-    <h1>Приветственная страница</h1>
+    <h2>Приветственная страница</h2>
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a class="nav-link active" aria-current="page" href='{{route('news::index')}}'>Все новости</a>
@@ -14,7 +14,7 @@
     @forelse ($news as $new)
             <div class="col-md-8">
                 <div class="card" style="width: 40rem; padding: 10px">
-                    <h1>{{ $new->title }}</h1>
+                    <h3>{{ $new->title }}</h3>
                     <p>{{ $new->content }}</p>
                 </div>
             </div>

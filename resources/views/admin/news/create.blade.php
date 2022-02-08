@@ -46,4 +46,7 @@
         {!! Form::submit(__('labels.button_save'), ['class' => "btn btn-primary"]) !!}
     </div>
     {!! Form::close() !!}
+    @if($locale ?? false)
+    {{ $locale }}
+    @endif
 @endsection
