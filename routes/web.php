@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\NewsController;
 use Illuminate\Support\Facades\Route;
@@ -90,7 +91,7 @@ Route::group([
         Route::get('index', [UserController::class, 'index'])
             ->name('index');
 
-        Route::get('create', [UserController::class, 'create'])
+        Route::get('create', [RegisterController::class, 'showRegistrationForm'])
             ->name('create');
 
         Route::get('update/{user}', [UserController::class, 'update'])

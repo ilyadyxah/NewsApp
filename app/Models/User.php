@@ -72,31 +72,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public static function create($user, $request)
+    public static function updateUser($user, $request)
     {
         $user->name = $request->name;
         $user->email = $request->mail;
-        $user->password = \Hash::make($request->password);
-//        $user->admin = $request->role;
+        if(!empty($request->password)) {
+            $user->password = \Hash::make($request->password);
+        }
+        $user->admin = $request->role;
         $user->save();
         return 'Новость сохранена';
     }
 
-    public static function rulesCreate()
-    {
-        return [
-            'name' => 'required|min:3|max:50',
-            'email' => 'string|mail|max:255|unique:users',
-            'password' => 'required|min:4',
-        ];
-    }
 
     public static function rulesUpdate()
     {
         return [
             'name' => 'required|min:3|max:50',
-            'email' => 'required|string|email|max:255',
-            'password' => 'required|min:4',
+            'email' => 'string|email|max:255',
+            'password' => 'max:8',
         ];
     }
 }

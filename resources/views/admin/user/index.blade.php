@@ -8,7 +8,7 @@
             <div>
                 <h1>Пользователи</h1>
                 <p>
-                    <a class="btn btn-success" href='{{route('register')}}'>Добавить</a>
+                    <a class="btn btn-success" href='{{route('admin::user::create')}}'>Добавить</a>
                 </p>
             </div>
             @if (session('success'))
