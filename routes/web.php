@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\NewsController;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +40,7 @@ Route::group([
 
 Route::group([
     'prefix' => 'admin/',
+    'middleware' => 'admin'
 ],function() {
     Route::group([
         'prefix' => 'news/',
@@ -46,7 +48,8 @@ Route::group([
     ],function() {
 
     Route::get('index', [AdminNewsController::class, 'index'])
-        ->name('index');
+        ->name('index')
+        ->middleware('admin');
 
     Route::get('create', [AdminNewsController::class, 'create'])
         ->name('create');
@@ -80,6 +83,25 @@ Route::group([
         Route::post('save', [CategoryController::class, 'save'])
             ->name('save');
     });
+    Route::group([
+        'prefix' => 'user/',
+        'as' => 'admin::user::'
+    ],function() {
+        Route::get('index', [UserController::class, 'index'])
+            ->name('index');
+
+        Route::get('create', [UserController::class, 'create'])
+            ->name('create');
+
+        Route::get('update/{user}', [UserController::class, 'update'])
+            ->name('update');
+
+        Route::get('delete/{id}', [UserController::class, 'delete'])
+            ->name('delete');
+
+        Route::post('save', [UserController::class, 'save'])
+            ->name('save');
+    });
 
 });
 
@@ -92,7 +114,8 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get( 'admin/profile/update', [ProfileController::class, 'update'])
-    ->name('admin::profile::update');
+    ->name('admin::profile::update')
+    ->middleware('auth');
 
 Route::post('admin/profile/save', [ProfileController::class, 'save'])
     ->name('admin::profile::save')

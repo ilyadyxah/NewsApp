@@ -8,6 +8,7 @@
             <div>
                 <h1>Админка</h1>
                 <p>
+                    <a class="btn btn-success" href='{{route('admin::user::index')}}'>Пользователи</a>
                     <a class="btn btn-success" href='{{route('admin::news::create')}}'>Добавить новость</a>
                     <a class="btn btn-success" href='{{route('admin::category::create')}}'>Добавить категорию</a>
                     <a class="btn btn-success" href='{{route('admin::news::find')}}'>Найти новость</a>

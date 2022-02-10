@@ -10,15 +10,19 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin::news::index') }}">Админка</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin::profile::update') }}">Профиль</a>
-                    </li>
-                </ul>
-
+                @guest()
+                @else
+                    <ul class="navbar-nav me-auto">
+                        @if(Auth::user()->admin == 1)
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin::news::index') }}">Админка</a>
+                            </li>
+                        @endif
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin::profile::update') }}">Профиль</a>
+                        </li>
+                    </ul>
+                @endguest
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ms-auto">
                     <!-- Authentication Links -->

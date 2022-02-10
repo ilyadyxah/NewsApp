@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\News;
 use App\Models\Author;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class NewsController extends Controller
