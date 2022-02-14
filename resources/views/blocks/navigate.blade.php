@@ -29,6 +29,9 @@
                     @guest
                         @if (Route::has('login'))
                             <li class="nav-item">
+                                <a href="{{ route('social::login-vk') }}"><img src="https://pngicon.ru/file/uploads/vk-64x64.png" alt="Значок вк" width="30"></a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                         @endif

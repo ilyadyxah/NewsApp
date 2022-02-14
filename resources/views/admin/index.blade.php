@@ -4,7 +4,7 @@
 @endsection
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div>
                 <h1>Админка</h1>
                 <p>
@@ -12,13 +12,25 @@
                     <a class="btn btn-success" href='{{route('admin::news::create')}}'>Добавить новость</a>
                     <a class="btn btn-success" href='{{route('admin::category::create')}}'>Добавить категорию</a>
                     <a class="btn btn-success" href='{{route('admin::news::find')}}'>Найти новость</a>
+                    <a class="btn btn-success" href='{{route('parser')}}'>Спиз...спарсить новости</a>
                 </p>
             </div>
+        </div>
             <h2>Все новости</h2>
+            @if (session('count') >= 0)
+                <div class="alert alert-success">
+                    <p>Запарсено {{ session('count') }} новостей</p>
+                </div>
+            @endif
+            @if (session('success'))
+                <div class="alert alert-success">
+                    <p>{{ session('success') }}</p>
+                </div>
+            @endif
             <div class="list-group">
                 @forelse($news as $item)
                     <div class="list-group-item">
-                        <h1>{{ $item->title }}</h1>
+                        <h3>{{ $item->title }}</h3>
                         <a class="btn btn-primary" href="{{ route('admin::news::update', ['news' => $item->id]) }}">
                             Редактировать
                         </a>

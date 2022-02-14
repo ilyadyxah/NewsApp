@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
+use App\Http\Controllers\Admin\ParserController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\VkController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -104,6 +106,19 @@ Route::group([
             ->name('save');
     });
 
+    Route::get('parser', [ParserController::class, 'parser'])
+        ->name('parser')
+        ->withoutMiddleware('admin');
+});
+
+Route::group([
+    'prefix' => 'social',
+    'as' => 'social::'
+], function () {
+    Route::get('/login', [VkController::class, 'loginVk'])
+        ->name('login-vk');
+    Route::get('/response', [VkController::class, 'responseVk'])
+        ->name('response-vk');
 });
 
 Route::get('/locale/{lang}', [LocaleController::class, 'index'])

@@ -41,7 +41,9 @@ class News extends Model
         'title',
         'content',
         'category_id',
-        'author_id'
+        'author_id',
+        'pubDate',
+        'link',
     ];
 
     public function category()
@@ -62,7 +64,7 @@ class News extends Model
     public static function rulesCreate()
     {
         return [
-            'title' => 'required|min:10|max:50|unique:news',
+            'title' => 'required|min:10|max:256|unique:news',
             'content' => 'max:1000| required',
             'category' => 'required|integer|exists:categories,id',
             'author' => 'required|min:5|max:50',
@@ -72,7 +74,7 @@ class News extends Model
     public static function rulesUpdate()
     {
         return [
-            'title' => 'required|min:10|max:50',
+            'title' => 'required|min:10|max:256',
             'content' => 'max:1000|required',
             'category' => 'required|integer|exists:categories,id',
             'author' => 'required|min:5|max:50',
