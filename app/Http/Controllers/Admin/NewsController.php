@@ -14,7 +14,7 @@ class NewsController extends Controller
 {
     public function index()
     {
-        $news = News::orderBy('updated_at', 'desc')->paginate(3);
+        $news = News::orderBy('updated_at', 'desc')->paginate(6);
         return view('admin.index', ['news' => $news]);
     }
 

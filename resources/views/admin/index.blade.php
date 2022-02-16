@@ -17,11 +17,6 @@
             </div>
         </div>
             <h2>Все новости</h2>
-            @if (session('count') >= 0)
-                <div class="alert alert-success">
-                    <p>Запарсено {{ session('count') }} новостей</p>
-                </div>
-            @endif
             @if (session('success'))
                 <div class="alert alert-success">
                     <p>{{ session('success') }}</p>

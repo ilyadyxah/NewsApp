@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\NewsParsingJob;
 use App\Models\Category;
 use App\Models\News;
 use Orchestra\Parser\Xml\Facade as XmlParser;
@@ -11,17 +12,19 @@ class ParserController extends Controller
 {
     public function parser()
     {
-        $xml = XmlParser::load('http://news.rambler.ru/rss/world/');
-        $data = $xml->parse([
-            'channel_title' => ['uses' => 'channel.title'],
-            'channel_description' => ['uses' => 'channel.description'],
-            'items' => ['uses' => 'channel.item[title,description,link,pubDate,category]'],
-        ]);
-        $count = $this->writeToDb($data);
-        return redirect()->route('admin::news::index')->with('count', $count);
+        $sources = [
+            'http://news.rambler.ru/rss/world/',
+            'https://news.rambler.ru/rss/holiday/',
+            'https://news.rambler.ru/rss/politics/',
+            'https://news.rambler.ru/rss/community/1',
+        ];
+        foreach ($sources as $source) {
+            NewsParsingJob::dispatch($source);
+        }
+        return redirect()->route('admin::news::index');
     }
 
-    public function writeToDb($data) // Процесс записи в БД. Остановился на нахождении соответствия в бд.
+    public static function writeToDb($data) // Процесс записи в БД. Остановился на нахождении соответствия в бд.
     {
         $count = 0;
         foreach ($data['items'] as $item) {
