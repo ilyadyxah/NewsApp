@@ -1,8 +1,14 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AuthorizationController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\NewsController as AdminNewsController;
+use App\Http\Controllers\Admin\ParserController;
+use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\VkController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,57 +23,117 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::prefix('news')->group(function() {
+Route::group([
+    'prefix' => 'news',
+    'as' => 'news::'
+],function() {
 
     Route::get('/', [NewsController::class, 'index'])
-        ->name('news::index');
-
-    Route::get('/allnews', [NewsController::class, 'allNews'])
-        ->name('news::allNews');
+        ->name('index');
 
     Route::get('/categories', [NewsController::class, 'categories'])
-        ->name('news::categories');
+        ->name('categories');
 
     Route::get('/categories/{id}', [NewsController::class, 'category'])
-        ->name('news::category');
+        ->name('category');
 
     Route::get('/card/{id}', [NewsController::class, 'card'])
-        ->name('news::card');
+        ->name('card');
 });
 
-Route::prefix('admin')->group(function() {
+Route::group([
+    'prefix' => 'admin/',
+    'middleware' => 'admin'
+],function() {
+    Route::group([
+        'prefix' => 'news/',
+        'as' => 'admin::news::'
+    ],function() {
 
-    Route::get('/', [AdminController::class, 'index'])
-        ->name('admin::index');
+    Route::get('index', [AdminNewsController::class, 'index'])
+        ->name('index')
+        ->middleware('admin');
 
-    Route::get('/add_category/{category?}', [AdminController::class, 'addCategory'])
-        ->name('admin::news::addCategory');
+    Route::get('create', [AdminNewsController::class, 'create'])
+        ->name('create');
 
-    Route::post('/create_category', [AdminController::class, 'createCategory'])
-        ->name('admin::news::createCategory');
+    Route::post('save', [AdminNewsController::class, 'save'])
+        ->name('save');
 
-    Route::get('/add_news/{response?}', [AdminController::class, 'addNews'])
-        ->name('admin::news::add');
+    Route::get('update/{news}', [AdminNewsController::class, 'update'])
+        ->name('update');
 
-    Route::post('/create_news', [AdminController::class, 'createNews'])
-        ->name('admin::news::create');
+    Route::get('delete/{id}', [AdminNewsController::class, 'delete'])
+        ->name('delete');
 
-    Route::get('/find_news/{response?}/{reply?}', [AdminController::class, 'findNews'])
-        ->name('admin::news::findNews');
+    Route::match(['get', 'post'], '/find/', [AdminNewsController::class, 'find'])
+        ->name('find');
+    });
 
-    Route::post('/get_news', [AdminController::class, 'getNews'])
-        ->name('admin::news::getNews');
+    Route::group([
+        'prefix' => 'category/',
+        'as' => 'admin::category::'
+    ],function() {
+        Route::get('create', [CategoryController::class, 'create'])
+            ->name('create');
 
-    Route::get('/delete_news/{news_id}', [AdminController::class, 'deleteNews'])
-        ->name('admin::news::delete');
+        Route::get('update/{id}', [CategoryController::class, 'update'])
+            ->name('update');
 
-    Route::get('/update_news/{news_id}', [AdminController::class, 'updateNews'])
-        ->name('admin::news::update');
+        Route::get('delete/{id}', [CategoryController::class, 'delete'])
+            ->name('delete');
 
-    Route::post('/update_news/apply_update', [AdminController::class, 'applyUpdateNews'])
-        ->name('admin::news::apply');
+        Route::post('save', [CategoryController::class, 'save'])
+            ->name('save');
+    });
+    Route::group([
+        'prefix' => 'user/',
+        'as' => 'admin::user::'
+    ],function() {
+        Route::get('index', [UserController::class, 'index'])
+            ->name('index');
 
+        Route::get('create', [RegisterController::class, 'showRegistrationForm'])
+            ->name('create');
+
+        Route::get('update/{user}', [UserController::class, 'update'])
+            ->name('update');
+
+        Route::get('delete/{id}', [UserController::class, 'delete'])
+            ->name('delete');
+
+        Route::post('save', [UserController::class, 'save'])
+            ->name('save');
+    });
+
+    Route::get('parser', [ParserController::class, 'parser'])
+        ->name('parser')
+        ->withoutMiddleware('admin');
 });
 
-Route::get('/admin/user/аuthor', [AuthorizationController::class, 'authorization'])
-    ->name('admin::user::аuthor');
+Route::group([
+    'prefix' => 'social',
+    'as' => 'social::'
+], function () {
+    Route::get('/login', [VkController::class, 'loginVk'])
+        ->name('login-vk');
+    Route::get('/response', [VkController::class, 'responseVk'])
+        ->name('response-vk');
+});
+
+Route::get('/locale/{lang}', [LocaleController::class, 'index'])
+    ->name('locale')
+->middleware('locale');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get( 'admin/profile/update', [ProfileController::class, 'update'])
+    ->name('admin::profile::update')
+    ->middleware('auth');
+
+Route::post('admin/profile/save', [ProfileController::class, 'save'])
+    ->name('admin::profile::save')
+    ->middleware('profile');
+

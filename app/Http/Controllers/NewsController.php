@@ -5,17 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\News;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
 
 class NewsController extends Controller
 {
     public function index ()
     {
-        return view('news.index');
-    }
-
-    public function allNews ()
-    {
-        return view('news.all_news', ['news' => News::all()]);
+        return view('news.index', ['news' => News::orderBy('updated_at', 'desc')->paginate(5)]);
     }
 
     public function categories ()

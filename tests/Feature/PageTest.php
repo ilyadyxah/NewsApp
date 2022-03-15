@@ -15,7 +15,7 @@ class PageTest extends TestCase
      */
     public function test_addCategory()
     {
-        $response = $this->get('/admin/add_category/somecategory');
+        $response = $this->get('/admin/news/admin/category/create');
 
         $response->assertStatus(200)
         ->assertSeeText('somecategory')
@@ -24,7 +24,7 @@ class PageTest extends TestCase
 
     public function test_formCategory()
     {
-        $response = $this->get('/admin/add_category');
+        $response = $this->get('/admin/news/admin/category/create');
         $title = 'sometitle';
         $response->assertStatus(200)
             ->type($title, 'title')
