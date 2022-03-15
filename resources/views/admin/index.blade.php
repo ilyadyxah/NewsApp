@@ -12,7 +12,7 @@
                     <a class="btn btn-success" href='{{route('admin::news::create')}}'>Добавить новость</a>
                     <a class="btn btn-success" href='{{route('admin::category::create')}}'>Добавить категорию</a>
                     <a class="btn btn-success" href='{{route('admin::news::find')}}'>Найти новость</a>
-                    <a class="btn btn-success" href='{{route('parser')}}'>Спиз...спарсить новости</a>
+                    <a class="btn btn-success" href='{{route('parser')}}'>Спарсить новости</a>
                 </p>
             </div>
         </div>
