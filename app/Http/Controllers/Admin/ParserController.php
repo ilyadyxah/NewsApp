@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Jobs\NewsParsingJob;
 use App\Models\Category;
 use App\Models\News;
-use Orchestra\Parser\Xml\Facade as XmlParser;
 
 class ParserController extends Controller
 {
