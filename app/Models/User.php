@@ -36,6 +36,14 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int|null $admin
+ * @property string $id_in_soc
+ * @property string $type_auth
+ * @property string $avatar
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereAdmin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereAvatar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereIdInSoc($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereTypeAuth($value)
  */
 class User extends Authenticatable
 {

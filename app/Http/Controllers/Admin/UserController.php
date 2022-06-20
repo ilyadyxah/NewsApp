@@ -11,6 +11,7 @@ class UserController extends Controller
     public function index()
     {
         $user = User::orderBy('updated_at', 'desc')->paginate(5);
+
         return view('admin.user.index', ['user' => $user]);
     }
 
@@ -31,22 +32,10 @@ class UserController extends Controller
         );
     }
 
-//    public function create()
-//    {
-//        return route('register');
-//    }
-//
-//    public function update(User $user)
-//    {
-//        return view("admin.profile.update", [
-//                'user' => $user,
-//            ]
-//        );
-//    }
-
     public function delete($id)
     {
         User::destroy([$id]);
+
         return redirect()->route("admin::user::index");
     }
 

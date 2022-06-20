@@ -12,6 +12,7 @@ class ProfileController extends Controller
     public function update()
     {
         $user = Auth::user();
+
         return view('admin.profile.update', ['user' => $user]);
     }
 
@@ -21,10 +22,12 @@ class ProfileController extends Controller
         $password = $request->post('password');
         $user->name = $request->post('name');
         $user->email = $request->post('email');
+
         if(!empty($password)) {
             $user->password = \Hash::make($password);
         }
         $user->save();
+
         return redirect()->back();
     }
 }

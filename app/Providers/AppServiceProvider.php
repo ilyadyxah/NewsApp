@@ -28,9 +28,5 @@ class AppServiceProvider extends ServiceProvider
     public function boot(User $user, \Request $request)
     {
         Paginator::useBootstrap();
-//        $news = (new News())->getNews();
-//        $categories = (new OldCategories())->getCategories();
-//        \View::share('user', $request->user());
-//        \View::share('categories', $categories);
     }
 }

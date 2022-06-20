@@ -21,12 +21,14 @@ class ParserController extends Controller
         foreach ($sources as $source) {
             NewsParsingJob::dispatch($source);
         }
+
         return redirect()->route('admin::news::index');
     }
 
     public static function writeToDb($data) // Процесс записи в БД. Остановился на нахождении соответствия в бд.
     {
         $count = 0;
+
         foreach ($data['items'] as $item) {
             if (!News::query()->where(['title' => $item['title']])->first()) {
                 $news = new News();
@@ -40,6 +42,7 @@ class ParserController extends Controller
                 $count ++;
             }
         }
+
         return $count;
     }
 }

@@ -10,7 +10,6 @@
             <a class="nav-link" href='{{route('news::categories')}}'>Категории новостей</a>
         </li>
     </ul>
-@if($news ?? false)
     @forelse ($news as $new)
             <div class="col-md-8">
                 <div class="card" style="width: 40rem; padding: 10px">
@@ -19,12 +18,11 @@
                 </div>
             </div>
     @empty
-        Нет новостей
+        <h3>Нет новостей</h3>
     @endforelse
     <div class="row justify-content-center">
         {{$news->links()}}
     </div>
-@endif
 @endsection
 
 

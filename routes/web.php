@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\ParserController;
@@ -22,14 +23,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', [NewsController::class, 'index'])
+    ->name('news::index');
 
 Route::group([
     'prefix' => 'news',
     'as' => 'news::'
 ],function() {
-
-    Route::get('/', [NewsController::class, 'index'])
-        ->name('index');
 
     Route::get('/categories', [NewsController::class, 'categories'])
         ->name('categories');
@@ -50,7 +50,7 @@ Route::group([
         'as' => 'admin::news::'
     ],function() {
 
-    Route::get('index', [AdminNewsController::class, 'index'])
+    Route::get('index', [AdminController::class, 'index'])
         ->name('index')
         ->middleware('admin');
 
@@ -127,7 +127,7 @@ Route::get('/locale/{lang}', [LocaleController::class, 'index'])
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 
 Route::get( 'admin/profile/update', [ProfileController::class, 'update'])
     ->name('admin::profile::update')

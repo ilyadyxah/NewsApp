@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\NewsCreateRequest;
 use App\Models\Category;
 use App\Models\News;
 use App\Models\Author;
@@ -12,19 +13,23 @@ use Illuminate\Support\Facades\Auth;
 
 class NewsController extends Controller
 {
-    public function index()
+    public function find(Request $request)
     {
-        $news = News::orderBy('updated_at', 'desc')->paginate(6);
-        return view('admin.index', ['news' => $news]);
+        $success = "Введите название новости";
+        $model = News::firstWhere('title', $request->title);
+        if ($request->title) {
+            $success = $model ? null : "Новость не найдена";
+        }
+
+        return view('admin.news.find', ['news' => $model])
+            ->with('success', $success);
     }
 
     public function create(Category $category)
     {
-        $locale = \App::getLocale();
         return view('admin.news.create', [
             'model' => new News(),
             'categories' => $category->getList(),
-            'locale' => $locale
         ]);
     }
 
@@ -33,7 +38,6 @@ class NewsController extends Controller
         return view("admin.news.create", [
                 'model' => $news,
                 'categories' => $category->getList(),
-                'author' => $author->find($news->author_id)
             ]
         );
     }
@@ -41,34 +45,19 @@ class NewsController extends Controller
     public function delete($id)
     {
         News::destroy([$id]);
+
         return redirect()->route("admin::news::index");
     }
 
-    public function save(Request $request)
+    public function save(NewsCreateRequest $request)
     {
         $id = $request->post('id');
-        if ($id) {
-            $rules = News::rulesUpdate();
-            $model = News::find($id);
-        }
-        else {
-            $rules = News::rulesCreate();
-            $model = new News();
-        }
-        $this->validate($request, $rules);
+        $model = $id ? News::find($id) : new News();
         $result = News::create($model, $request);
+
         return redirect()->route("admin::news::index", ['news' => $model->id])
             ->with('success', $result);
     }
 
-    public function find(Request $request)
-    {
-        $success = "Введите название новости";
-        $model = News::firstWhere('title', $request->title);
-        if ($request->title) {
-            $success = $model ? null : "Новость не найдена";
-        }
-        return view('admin.news.find', ['news' => $model])
-            ->with('success', $success);
-    }
+
 }

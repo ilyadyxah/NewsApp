@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Category;
 use App\Models\News;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Session;
 
 class NewsController extends Controller
 {
@@ -17,21 +15,20 @@ class NewsController extends Controller
 
     public function categories ()
     {
-
         return view('news.categories', ['categories' => Category::all()]);
     }
 
     public function category ($categoryId)
     {
-        $news = News::query()
-        ->where('category_id', $categoryId)
-        ->get();
+        $news = Category::find($categoryId)->news()->get();
+
         return view('news.category', ['news' => $news, 'count' => 0]);
     }
 
     public function card ($id)
     {
         $news = News::find($id);
+
         return view('news.card', ['news' => $news]);
     }
 }

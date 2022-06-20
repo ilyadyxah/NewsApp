@@ -23,7 +23,7 @@
     </div>
     <div class="mb-3">
         <label class="form-label">{{__('labels.author')}}</label>
-        {!! Form::text('author', $author->name ?? "", ['class' => "form-control"]) !!}
+        {!! Form::text('author', $model->author->name ?? "", ['class' => "form-control"]) !!}
         @error('author')
         <div class="alert alert-danger">{{ $message }}</div>
         @enderror
